@@ -1,0 +1,186 @@
+#!/usr/bin/env bash
+
+sudo -v
+
+fancy_echo() {
+  printf "\n%b\n" "$1"
+}
+
+less_fancy_echo() {
+  printf "%b\n" "$1"
+}
+
+if [[ ! -d "$HOME/.bin/" ]]; then
+  mkdir "$HOME/.bin"
+fi
+
+fancy_echo "Allow installing apps downloaded from anywhere ..."
+  sudo spctl --master-disable 
+
+fancy_echo "Initialize SSH ..."
+  if [ ! -d ~/.ssh/ ]; then
+    ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
+  fi
+
+if ! type brew &>/dev/null; then
+  fancy_echo "Installing Homebrew ..."
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    export PATH="/usr/local/bin:$PATH"
+else
+  fancy_echo "Homebrew already installed. Skipping ..."
+fi
+
+fancy_echo "Updating Homebrew formulas ..."
+brew update
+
+brew_install() {
+  if brew list -1 | grep -q "^$1"; then
+    less_fancy_echo "... skipping $1, already installed"
+  else
+    brew install $1
+  fi
+
+  true
+}
+
+brew_tap() {
+  if brew tap -1 | grep -q "^$1"; then
+    less_fancy_echo "... skipping $1, already tapped"
+  else
+    brew tap $1
+  fi
+
+  true
+}
+
+fancy_echo "Installing Git ..."
+  brew_install git
+  git config --global alias.co checkout
+  git config --global alias.br branch
+  git config --global alias.ci commit
+  git config --global alias.st status
+
+  if [ ! -e $HOME/.git-completion.git ]; then
+    curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+  fi
+  if [ ! -e $HOME/.bash_git ]; then
+    curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.bash_git
+  fi
+
+fancy_echo "Installing Postgres, a good open source relational database ..."
+  brew_install postgres --no-python
+
+fancy_echo "Installing The Silver Searcher (better than ack or grep) to search the contents of files ..."
+  brew_install the_silver_searcher
+
+fancy_echo "Installing vim from Homebrew to get the latest version ..."
+  brew_install "vim --override-system-vi"
+
+fancy_echo "Installing ctags, to index files for vim tab completion of methods, classes, variables ..."
+  brew_install ctags
+
+fancy_echo "Installing tmux, to save project state and switch between projects ..."
+  brew_install tmux
+
+fancy_echo "Installing Bash Completion, for better bash completion ..."
+  brew_install bash-completion
+
+fancy_echo "Installing ruby-install ..."
+  brew_install ruby-install
+
+fancy_echo "Installing latest stable Ruby version ..."
+  # check if this is already installed
+  # ruby-install ruby --system
+
+fancy_echo "Updating RubyGems ..."
+  # check if this is already updated
+  # gem update --system
+
+fancy_echo "Installing Python ..."
+  brew_install python3
+
+
+fancy_echo "Installing wget ..."
+  brew_install wget
+
+fancy_echo "Installing nvm ..."
+  if [ ! -d $HOME/.nvm/ ]; then
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+  fi
+
+fancy_echo "Installing rcm, for dotfile management ..."
+  brew_tap thoughtbot/formulae
+  brew_install rcm
+
+fancy_echo "Installing Brew Cask, to install OSX binaries ..."
+
+brew_cask_list() {
+  brew cask list 2> /dev/null || true
+}
+
+# run this once, the command is slow
+CASKS=$(brew_cask_list)
+
+is_brew_cask_installed() {
+  echo ${CASKS} | grep -q "\b$1"
+}
+
+brew_cask_install() {
+  if is_brew_cask_installed $1; then
+    less_fancy_echo "... skipping cask $1, already installed"
+  else
+    brew cask install $1 2> /dev/null || true
+  fi
+
+  true
+}
+
+fancy_echo "Installing Caffeine ..."
+  brew_cask_install caffeine
+
+fancy_echo "Installing Google Chrome ..."
+  brew_cask_install google-chrome
+
+fancy_echo "Installing Google Drive ..."
+  brew_cask_install google-drive
+
+fancy_echo "Installing Firefox ..."
+  brew_cask_install firefox
+
+fancy_echo "Installing TextMate ..."
+  brew_cask_install textmate
+
+fancy_echo "Installing F-lux ..."
+  brew_cask_install flux
+
+fancy_echo "Installing iTerm2 ..."
+  brew_cask_install iterm2
+
+fancy_echo "Installing MacVim ..."
+  brew_cask_install macvim
+
+fancy_echo "Installing Spotify ..."
+  brew_cask_install spotify
+
+fancy_echo "Installing VLC ..."
+  brew_cask_install vlc
+
+fancy_echo "Installing Slack ..."
+  brew_cask_install slack
+
+fancy_echo "Installing ShiftIt (onsi fork) ..."
+  if [ ! -d /Applications/ShiftIt.app ]; then
+      wget https://raw.github.com/onsi/ShiftIt/master/ShiftIt.zip
+      unzip -q ShiftIt.zip
+      rm ShiftIt.zip
+      mv ShiftIt.app /Applications/
+  fi
+
+fancy_echo "Installing Vundle ..."
+  if [ ! -e $HOME/.vim/bundle/Vundle.vim ]; then
+    mkdir -p $HOME/.vim/bundle/
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  fi
+  vim +PluginInstall +qall
+
+# TODO: git pull dotfiles and run rcup

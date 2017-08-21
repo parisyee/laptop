@@ -138,6 +138,9 @@ brew_cask_install() {
 fancy_echo "Installing Google Chrome ..."
   brew_cask_install google-chrome
 
+fancy_echo "Installing 1Password ..."
+  brew_cask_install 1password
+
 fancy_echo "Installing Google Backup and Sync ..."
   brew_cask_install google-backup-and-sync
 

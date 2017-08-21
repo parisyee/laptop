@@ -88,7 +88,7 @@ fancy_echo "Installing Bash Completion, for better bash completion ..."
 fancy_echo "Installing ruby-install ..."
   brew_install ruby-install
 
-fancy_echo "Installing latest stable Ruby version ..."
+# fancy_echo "Installing latest stable Ruby version ..."
   # check if this is already installed
   # ruby-install ruby --system
 
@@ -135,23 +135,17 @@ brew_cask_install() {
   true
 }
 
-fancy_echo "Installing Caffeine ..."
-  brew_cask_install caffeine
-
 fancy_echo "Installing Google Chrome ..."
   brew_cask_install google-chrome
 
-fancy_echo "Installing Google Drive ..."
-  brew_cask_install google-drive
+fancy_echo "Installing Google Backup and Sync ..."
+  brew_cask_install google-backup-and-sync
 
 fancy_echo "Installing Firefox ..."
   brew_cask_install firefox
 
 fancy_echo "Installing TextMate ..."
   brew_cask_install textmate
-
-fancy_echo "Installing F-lux ..."
-  brew_cask_install flux
 
 fancy_echo "Installing iTerm2 ..."
   brew_cask_install iterm2
@@ -167,6 +161,9 @@ fancy_echo "Installing VLC ..."
 
 fancy_echo "Installing Slack ..."
   brew_cask_install slack
+
+fancy_echo "Installing Caffeine ..."
+  brew_cask_install caffeine
 
 fancy_echo "Installing ShiftIt (onsi fork) ..."
   if [ ! -d /Applications/ShiftIt.app ]; then

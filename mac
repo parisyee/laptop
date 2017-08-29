@@ -88,13 +88,11 @@ fancy_echo "Installing Bash Completion, for better bash completion ..."
 fancy_echo "Installing ruby-install ..."
   brew_install ruby-install
 
-# fancy_echo "Installing latest stable Ruby version ..."
-  # check if this is already installed
-  # ruby-install ruby --system
+fancy_echo "Installing latest stable Ruby version ..."
+  ruby-install --latest ruby --system
 
 fancy_echo "Updating RubyGems ..."
-  # check if this is already updated
-  # gem update --system
+  gem update --system
 
 fancy_echo "Installing Python ..."
   brew_install python3

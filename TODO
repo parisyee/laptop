@@ -1,10 +1,5 @@
 - Use ssh keygen command recommended by github and add the ssh config file
 
-- Check if latest ruby version is installed and, if not, prompt user if they
-  would like to install it
-
-- Check if ruby gems is updated and update if not
-
 - Check out if using shifit available through cask is the same thing
 
 - Clone .dotfiles and run rcup -v

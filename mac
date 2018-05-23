@@ -166,6 +166,9 @@ fancy_echo "Installing Slack ..."
 fancy_echo "Installing Caffeine ..."
   brew_cask_install caffeine
 
+fancy_echo "Installing Typora ..."
+  brew_cask_install typora
+
 fancy_echo "Installing ShiftIt (onsi fork) ..."
   if [ ! -d /Applications/ShiftIt.app ]; then
       wget https://raw.github.com/onsi/ShiftIt/master/ShiftIt.zip

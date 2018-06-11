@@ -194,6 +194,12 @@ fancy_echo "Cloning dotfiles repo and running rcup"
   git_clone git@github.com:parisyee/dotfiles.git ~/dev/dotfiles
   rcup -v -d ~/dev/dotfiles
 
+fancy_echo "Using Tomorrow Night theme for vim"
+  if [ ! -e $HOME/.vim/colors ]; then
+    mkdir -p $HOME/.vim/colors
+    cp ~/.vim/bundle/vim-tomorrow-theme/colors/*.vim ~/.vim/colors/
+  fi
+
 fancy_echo "Installing Vundle ..."
   if [ ! -e $HOME/.vim/bundle/Vundle.vim ]; then
     mkdir -p $HOME/.vim/bundle/

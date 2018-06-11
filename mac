@@ -169,13 +169,8 @@ fancy_echo "Installing Caffeine ..."
 fancy_echo "Installing Typora ..."
   brew_cask_install typora
 
-fancy_echo "Installing ShiftIt (onsi fork) ..."
-  if [ ! -d /Applications/ShiftIt.app ]; then
-      wget https://raw.github.com/onsi/ShiftIt/master/ShiftIt.zip
-      unzip -q ShiftIt.zip
-      rm ShiftIt.zip
-      mv ShiftIt.app /Applications/
-  fi
+fancy_echo "Installing ShiftIt"
+  brew_cask_install shiftit
 
 fancy_echo "Creating dev workspace"
   if [ ! -e $HOME/.dev ]; then

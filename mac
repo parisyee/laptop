@@ -89,7 +89,7 @@ fancy_echo "Installing ruby-install ..."
   brew_install ruby-install
 
 fancy_echo "Installing latest stable Ruby version ..."
-  ruby-install --latest ruby --system
+  ruby-install --latest ruby --system --no-reinstall
 
 fancy_echo "Updating RubyGems ..."
   gem update --system

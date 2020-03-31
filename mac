@@ -111,9 +111,9 @@ fancy_echo "Installing MacVim ..."
 fancy_echo "Installing Typora ..."
   brew_cask_install typora
 
-fancy_echo "Creating dev workspace"
-  if [ ! -e $HOME/.dev ]; then
-    mkdir -p $HOME/dev
+fancy_echo "Creating coding workspace"
+  if [ ! -e $HOME/workspace ]; then
+    mkdir -p $HOME/workspace
   fi
 
 git_clone() {
@@ -130,11 +130,11 @@ fancy_echo "Installing Oh-my-zsh"
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 fancy_echo "Cloning laptop repo"
-  git_clone git@github.com:parisyee/laptop.git ~/dev/laptop
+  git_clone git@github.com:parisyee/laptop.git ~/workspace/laptop
 
 fancy_echo "Cloning dotfiles repo and running rcup"
-  git_clone git@github.com:parisyee/dotfiles.git ~/dev/dotfiles
-  rcup -v -d ~/dev/dotfiles
+  git_clone git@github.com:parisyee/dotfiles.git ~/workspace/dotfiles
+  rcup -v -d ~/workspace/dotfiles
 
 fancy_echo "Using Tomorrow Night theme for vim"
   if [ ! -e $HOME/.vim/colors ]; then

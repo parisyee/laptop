@@ -67,6 +67,10 @@ fancy_echo "Installing tmux, to save project state and switch between projects .
 fancy_echo "Installing Bash Completion, for better bash completion ..."
   brew_install bash-completion
 
+fancy_echo "Installing rcm, for dotfile management ..."
+  brew_tap thoughtbot/formulae
+  brew_install rcm
+
 fancy_echo "Installing Brew Cask, to install OSX binaries ..."
 
 brew_cask_list() {
@@ -126,11 +130,12 @@ git_clone() {
   true
 }
 
-fancy_echo "Installing Oh-my-zsh"
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
 fancy_echo "Cloning laptop repo"
   git_clone git@github.com:parisyee/laptop.git ~/dev/laptop
+
+fancy_echo "Cloning dotfiles repo and running rcup"
+  git_clone git@github.com:parisyee/dotfiles.git ~/dev/dotfiles
+  rcup -v -d ~/dev/dotfiles
 
 fancy_echo "Using Tomorrow Night theme for vim"
   if [ ! -e $HOME/.vim/colors ]; then

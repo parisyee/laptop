@@ -1,5 +1,0 @@
-- Use ssh keygen command recommended by github and add the ssh config file
-
-- Check out if using shifit available through cask is the same thing
-
-- Clone .dotfiles and run rcup -v

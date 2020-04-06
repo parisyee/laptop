@@ -10,6 +10,20 @@ less_fancy_echo() {
   printf "%b\n" "$1"
 }
 
+fancy_echo "Setting up ssh key..."
+  ssh-keygen -t rsa -b 4096 -C "paris.yee@gmail.com"
+  eval "$(ssh-agent -s)"
+  cat <<EOT>> ~/.ssh/config
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
+EOT
+  ssh-add -K ~/.ssh/id_rsa
+  pbcopy < ~/.ssh/id_rsa.pub
+
+read -p "SSH key copied to clipboard. Add to Github account the press [Enter] to continue."
+
 if [[ ! -d "$HOME/.bin/" ]]; then
   mkdir "$HOME/.bin"
 fi
@@ -110,6 +124,13 @@ fancy_echo "Installing MacVim ..."
 
 fancy_echo "Installing Typora ..."
   brew_cask_install typora
+  
+fancy_echo "Installing Dropbox..."
+  brew_cask_install dropbox
+  
+fancy_echo "Installing Adobe Creative Cloud..."
+  brew_cask_install adobe-creative-cloud
+
 
 fancy_echo "Creating coding workspace"
   if [ ! -e $HOME/workspace ]; then

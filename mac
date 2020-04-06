@@ -122,6 +122,9 @@ fancy_echo "Installing iTerm2 ..."
 fancy_echo "Installing MacVim ..."
   brew_cask_install macvim
 
+fancy_echo "Installing Hammerspoon ..."
+  brew_cask_install hammerspoon
+
 fancy_echo "Installing Typora ..."
   brew_cask_install typora
   

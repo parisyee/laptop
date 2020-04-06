@@ -11,18 +11,22 @@ less_fancy_echo() {
 }
 
 fancy_echo "Setting up ssh key..."
-  ssh-keygen -t rsa -b 4096 -C "paris.yee@gmail.com"
-  eval "$(ssh-agent -s)"
-  cat <<EOT>> ~/.ssh/config
+  if [ ! -d ~/.ssh ]; then
+    ssh-keygen -t rsa -b 4096 -C "paris.yee@gmail.com"
+    eval "$(ssh-agent -s)"
+    cat <<EOT>> ~/.ssh/config
 Host *
   AddKeysToAgent yes
   UseKeychain yes
   IdentityFile ~/.ssh/id_rsa
 EOT
-  ssh-add -K ~/.ssh/id_rsa
-  pbcopy < ~/.ssh/id_rsa.pub
+    ssh-add -K ~/.ssh/id_rsa
+    pbcopy < ~/.ssh/id_rsa.pub
 
-read -p "SSH key copied to clipboard. Add to Github account the press [Enter] to continue."
+    read -p "SSH key copied to clipboard. Add to Github account the press [Enter] to continue."
+  else
+    less_fancy_echo ".ssh directory already exists. Skipping ..."
+  fi
 
 if [[ ! -d "$HOME/.bin/" ]]; then
   mkdir "$HOME/.bin"
@@ -122,9 +126,6 @@ fancy_echo "Installing iTerm2 ..."
 fancy_echo "Installing MacVim ..."
   brew_cask_install macvim
 
-fancy_echo "Installing Hammerspoon ..."
-  brew_cask_install hammerspoon
-
 fancy_echo "Installing Typora ..."
   brew_cask_install typora
   
@@ -133,6 +134,23 @@ fancy_echo "Installing Dropbox..."
   
 fancy_echo "Installing Adobe Creative Cloud..."
   brew_cask_install adobe-creative-cloud
+
+fancy_echo "Installing Hammerspoon ..."
+  brew_cask_install hammerspoon
+
+fancy_echo "Installing ShiftIt.spoon"
+  if [ ! -d $HOME/.hammerspoon/Spoons/ShiftIt.spoon ]; then
+    curl https://github.com/peterklijn/hammerspoon-shiftit/raw/master/Spoons/ShiftIt.spoon.zip -o ./ShiftIt.spoon.zip -L
+    unzip ShiftIt.spoon.zip
+    open ShiftIt.spoon
+    rm ShiftIt.spoon.zip
+    cat <<EOT>> ~/.hammerspoon/init.lua
+hs.loadSpoon("ShiftIt")
+spoon.ShiftIt:bindHotkeys({})
+EOT
+  else
+    less_fancy_echo "... skiping, already ShiftIt.spoon already installed."
+  fi
 
 
 fancy_echo "Creating coding workspace"

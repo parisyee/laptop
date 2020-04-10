@@ -135,6 +135,9 @@ fancy_echo "Installing Dropbox..."
 fancy_echo "Installing Adobe Creative Cloud..."
   brew_cask_install adobe-creative-cloud
 
+fancy_echo "Installing Spotify ..."
+  brew_cask_install spotify
+
 fancy_echo "Installing Hammerspoon ..."
   brew_cask_install hammerspoon
 

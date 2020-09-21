@@ -81,6 +81,9 @@ fancy_echo "Installing tmux, to save project state and switch between projects .
 fancy_echo "Installing Bash Completion, for better bash completion ..."
   brew_install bash-completion
 
+fancy_echo "Installing fd, for finding things more easily ..."
+  brew_install fd
+
 fancy_echo "Installing rcm, for dotfile management ..."
   brew_tap thoughtbot/formulae
   brew_install rcm

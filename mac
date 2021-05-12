@@ -105,7 +105,7 @@ brew_cask_install() {
   if is_brew_cask_installed $1; then
     less_fancy_echo "... skipping cask $1, already installed"
   else
-    brew cask install $1 2> /dev/null || true
+    brew install --cask $1 2> /dev/null || true
   fi
 
   true
@@ -175,7 +175,9 @@ git_clone() {
 }
 
 fancy_echo "Installing Oh-my-zsh"
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  if [ ! -e $HOME/.oh-my-zsh ]; then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
 
 fancy_echo "Cloning laptop repo"
   git_clone git@github.com:parisyee/laptop.git ~/workspace/laptop
